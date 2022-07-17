@@ -52,6 +52,7 @@
  * All values (including hue) are scaled to 0-255
  */
 #define HSV_AZURE       132, 102, 255
+#define HSV_LUNA         25,  76,  98 
 #define HSV_BLACK         0,   0,   0
 #define HSV_BLUE        170, 255, 255
 #define HSV_CHARTREUSE   64, 255, 255
