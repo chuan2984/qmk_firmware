@@ -21,9 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define EE_HANDS
 
-// two taps to toggle a layer on with TT
-#define TAPPING_TOGGLE 2
-
 // activate cap words by pressing both shifts at the same time
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 

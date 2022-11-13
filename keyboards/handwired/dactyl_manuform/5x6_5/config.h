@@ -18,19 +18,16 @@
 #define DIODE_DIRECTION COL2ROW
 
 #define SPLIT_USB_DETECT
-#define SPLIT_USB_TIMEOUT 1000
+#define SPLIT_USB_TIMEOUT 500
 
 // WS2812 RGB LED strip input and number of LEDs
-#undef RGB_DI_PIN
 #define RGB_DI_PIN D1
-#undef RGBLED_NUM
 #define RGBLED_NUM 20
 #define RGBLIGHT_SPLIT
 #define RGBLED_SPLIT { 10, 10 }
-#define RGBLIGHT_EFFECT_BREATHING
 #define RGBLIGHT_LAYERS
 #define RGBLIGHT_SLEEP // If defined, the RGB lighting will be switched off when the host goes to sleep
-#define RGBLIGHT_LIMIT_VAL 200 // max 255 (0.32A one side for 24 leds with 255, 0.29A at 250)214235525
+#define RGBLIGHT_LIMIT_VAL 200 // max 255 (0.32A one side for 24 leds with 255, 0.29A at 250)
 #define RGBLIGHT_HUE_STEP 10 // The number of steps to cycle through the hue by
 #define RGBLIGHT_SAT_STEP 17 // The number of steps to increment the saturation by
 #define RGBLIGHT_VAL_STEP 17 // The number of steps to increment the brightness by
