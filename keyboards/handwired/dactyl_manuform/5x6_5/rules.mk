@@ -18,4 +18,4 @@ RGBLIGHT_ENABLE = yes			# Enable keyboard RGB underglow
 AUDIO_ENABLE = no				# Audio output
 SPLIT_KEYBOARD = yes
 CAPS_WORD_ENABLE = yes			# Enable Caps Word
-DEBOUNCE_TYPE = sym_eager_pk    # A non-noise resistant debounce algo, used when scan frequency is higher than 800 use sys_eager_pr when lower than 500
+#DEBOUNCE_TYPE = sym_eager_pk    # A non-noise resistant debounce algo, used when scan frequency is higher than 800 use sys_eager_pr when lower than 500
