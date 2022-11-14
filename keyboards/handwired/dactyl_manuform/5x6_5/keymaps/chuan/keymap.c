@@ -128,11 +128,21 @@ const rgblight_segment_t PROGMEM my_layer0_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 );
 
 const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_TEAL}
+    {0, 3, HSV_LUNA},
+    {3, 4, HSV_ORANGE},
+    {7, 3, HSV_LUNA},
+    {10, 3, HSV_LUNA},
+    {13, 4, HSV_ORANGE},
+    {17, 3, HSV_LUNA}
 );
 
 const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_RED}
+    {0, 3, HSV_LUNA},
+    {3, 4, HSV_CHARTREUSE},
+    {7, 3, HSV_LUNA},
+    {10, 3, HSV_LUNA},
+    {13, 4, HSV_CHARTREUSE},
+    {17, 3, HSV_LUNA}
 );
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
