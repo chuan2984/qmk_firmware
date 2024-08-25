@@ -1,11 +1,5 @@
 #pragma once
 
-#include "config_common.h"
-
-#define PRODUCT_ID 0x3536
-#define DEVICE_VER 0x0002
-#define PRODUCT    Dactyl-Manuform (5x6)
-
 /* key matrix size */
 // Rows are doubled-up
 #define MATRIX_ROWS 12
@@ -21,7 +15,7 @@
 #define SPLIT_USB_TIMEOUT 500
 
 // WS2812 RGB LED strip input and number of LEDs
-#define RGB_DI_PIN D1
+#define WS2812_DI_PIN D1
 #define RGBLED_NUM 20
 #define RGBLIGHT_SPLIT
 #define RGBLED_SPLIT { 10, 10 }
