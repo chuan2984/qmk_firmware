@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
 // HOME ROW modes
-#define TAPPING_TERM 200
+#define TAPPING_TERM 180
 // #define TAPPING_TERM_PER_KEY
 #define QUICK_TAP_TERM 0
 // Left-hand home row mods
