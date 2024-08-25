@@ -33,8 +33,6 @@ enum custom_keycodes {
   INV_1P = SAFE_RANGE,
   DB_COLN,
   PARENT_DIR,
-  TMUX_MOD,
-  VIM_MOD,
 };
 
 // define keycodes
@@ -42,67 +40,62 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case INV_1P:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_LCTL) SS_TAP(X_X) SS_UP(X_LCTL) SS_UP(X_LSFT) SS_DELAY(500) "secret" SS_DELAY(100) SS_TAP(X_ENT));
+        SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_LCTL) SS_TAP(X_X) SS_UP(X_LCTL) SS_UP(X_LSFT));
       }
       return false;
-
     case DB_COLN:
       if (record->event.pressed) {
         SEND_STRING("::");
       }
       return false;
-
     case PARENT_DIR:
       if (record->event.pressed) {
         SEND_STRING("../");
       }
       return false;
-
-    case TMUX_MOD:
-      if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_B) SS_UP(X_LCTL));
-      }
-      return false;
-
-    case VIM_MOD:
-      if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_W) SS_UP(X_LCTL));
-      }
-      return false;
-
     default:
       return true;
   }
 };
 
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SFT_T(KC_SPC):
+            return TAPPING_TERM + 1250;
+        case LT(1, KC_GRV):
+            return 130;
+        default:
+            return TAPPING_TERM;
+    }
+}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_CHUAN] = LAYOUT_5x6_5(
-    TMUX_MOD,    KC_1,      KC_2,        KC_3,          KC_4,          KC_5,                                                                 KC_6,        KC_7,      KC_8,         KC_9,       KC_0,        VIM_MOD,
-    KC_TAB,      KC_Q,      KC_W,        KC_E,          KC_R,          KC_T,                                                                 KC_Y,        KC_U,      KC_I,         KC_O,       KC_P,        KC_UNDS,
-    KC_ESC,      KC_A,      KC_S,        KC_D,          KC_F,          KC_G,                                                                 KC_H,        KC_J,      KC_K,         KC_L,       KC_SCLN,     KC_QUOT,
-    KC_LSFT,     KC_Z,      KC_X,        KC_C,          KC_V,          KC_B,                                                                 KC_N,        KC_M,      KC_COMM,      KC_DOT,     KC_SLSH,     KC_RSFT,
-                            KC_EQL,      LSA(KC_NO),                   KC_BSPC,    KC_LCTL,    TT(_EXTEND),       TT(_EXTEND),    KC_LGUI,   KC_SPC,                 RSA(KC_NO),   KC_DEL,
-                                                                                   KC_LALT,    TT(_SYMBOL),       TT(_SYMBOL),    KC_ENT
+    INV_1P,      KC_1,      KC_2,        KC_3,          KC_4,          KC_5,                                                                    KC_6,        KC_7,      KC_8,         KC_9,       KC_0,        KC_NO,
+    KC_TAB,      KC_Q,      KC_W,        KC_E,          KC_R,          KC_T,                                                                    KC_Y,        KC_U,      KC_I,         KC_O,       KC_P,        KC_UNDS,
+    KC_ESC,      GUI_A,     ALT_S,       SFT_D,         CTL_F,         KC_G,                                                                    KC_H,        CTL_J,     SFT_K,        ALT_L,      GUI_SCLN,    KC_QUOT,
+    KC_LSFT,     KC_Z,      KC_X,        KC_C,          KC_V,          KC_B,                                                                    KC_N,        KC_M,      KC_COMM,      KC_DOT,     KC_SLSH,     KC_RSFT,
+                            KC_RBRC,     KC_PERC,                      KC_BSPC,       KC_LCTL,    TT(_EXTEND),       TT(_EXTEND),    KC_LGUI,   KC_SPC,                 KC_EQL,       KC_DEL,
+                                                                                      KC_LALT,    TT(_SYMBOL),       TT(_SYMBOL),    KC_ENT
   ),
 
   [_SYMBOL] = LAYOUT_5x6_5(
-    KC_TRNS,    KC_F1,      KC_F2,        KC_F3,        KC_F4,         KC_F5,                                                                KC_F6,      KC_F7,      KC_F8,        KC_F9,      KC_F10,      KC_TRNS,
-    KC_TRNS,    KC_QUOT,    KC_LT,        KC_GT,        KC_DQUO,       KC_NO,                                                                KC_AMPR,    DB_COLN,    KC_LBRC,      KC_RBRC,    KC_PERC,     KC_TRNS,
-    KC_TRNS,    KC_EXLM,    KC_MINS,      KC_PLUS,      KC_EQL,        KC_PIPE,                                                              KC_PIPE,    KC_COLN,    KC_LPRN,      KC_RPRN,    KC_QUES,     KC_TRNS,
-    KC_TRNS,    KC_CIRC,    KC_SLSH,      KC_ASTR,      KC_BSLS,       PARENT_DIR,                                                           KC_TILD,    KC_DLR,     KC_LCBR,      KC_RCBR,    KC_AT,       KC_TRNS,
-                            KC_PGUP,      KC_PGDN,                     KC_TRNS,    KC_TRNS,    KC_TRNS,           KC_TRNS,        KC_TRNS,   KC_TRNS,                KC_HOME,      KC_END,
-                                                                                   KC_TRNS,    KC_TRNS,           KC_TRNS,        KC_TRNS
+    KC_TRNS,    KC_F1,      KC_F2,        KC_F3,        KC_F4,         KC_F5,                                                                   KC_F6,      KC_F7,      KC_F8,        KC_F9,      KC_F10,      KC_TRNS,
+    KC_TRNS,    KC_QUOT,    KC_LT,        KC_GT,        KC_DQUO,       KC_HASH,                                                                 KC_AMPR,    DB_COLN,    KC_LBRC,      KC_RBRC,    KC_PERC,     KC_TRNS,
+    KC_TRNS,    KC_EXLM,    KC_MINS,      KC_PLUS,      KC_EQL,        KC_GRV,                                                                  KC_PIPE,    KC_COLN,    KC_LPRN,      KC_RPRN,    KC_QUES,     KC_TRNS,
+    KC_TRNS,    KC_CIRC,    KC_SLSH,      KC_ASTR,      KC_BSLS,       PARENT_DIR,                                                              KC_TILD,    KC_DLR,     KC_LCBR,      KC_RCBR,    KC_AT,       KC_TRNS,
+                            KC_PGUP,      KC_PGDN,                     KC_TRNS,      KC_TRNS,    KC_TRNS,           KC_TRNS,        KC_TRNS,    KC_TRNS,                KC_HOME,      KC_END,
+                                                                                     KC_TRNS,    KC_TRNS,           KC_TRNS,        KC_TRNS
   ),
 
   [_EXTEND] = LAYOUT_5x6_5(
-    KC_TRNS,    KC_NO,      KC_NO,        KC_NO,        KC_NO,         KC_NO,                                                                KC_NO,      KC_NO,      KC_BRIU,      KC_MPLY,    KC_VOLU,     KC_NO,
-    KC_TRNS,    KC_NO,      KC_P7,        KC_P8,        KC_P9,         KC_NO,                                                                KC_NO,      KC_NO,      KC_BRID,      KC_MSTP,    KC_VOLD,     KC_NO,
-    KC_TRNS,    KC_NO,      KC_P4,        KC_P5,        KC_P6,         KC_NO,                                                                KC_LEFT,    KC_DOWN,    KC_UP,        KC_RGHT,    KC_NO,       KC_NO,
-    KC_TRNS,    INV_1P,     KC_P1,        KC_P2,        KC_P3,         KC_NO,                                                                KC_NO,      KC_NO,      KC_MS_L,      KC_MS_R,    KC_NO,       KC_NO,
-                            KC_P0,        KC_PDOT,                     KC_TRNS,    KC_TRNS,    KC_TRNS,           KC_TRNS,        KC_TRNS,   KC_TRNS,                KC_NO,        KC_NO,
-                                                                                   KC_TRNS,    KC_TRNS,           KC_TRNS,        KC_TRNS
+    KC_TRNS,    KC_NO,      DT_PRINT,     DT_UP,        DT_DOWN,       KC_NO,                                                                   KC_NO,      KC_NO,      KC_BRIU,      KC_MPLY,    KC_VOLU,     KC_NO,
+    KC_TRNS,    KC_NO,      KC_P7,        KC_P8,        KC_P9,         KC_NO,                                                                   KC_NO,      KC_NO,      KC_BRID,      KC_MSTP,    KC_VOLD,     KC_NO,
+    KC_TRNS,    KC_NO,      KC_P4,        KC_P5,        KC_P6,         KC_NO,                                                                   KC_LEFT,    KC_DOWN,    KC_UP,        KC_RGHT,    KC_NO,       KC_NO,
+    KC_TRNS,    KC_NO,      KC_P1,        KC_P2,        KC_P3,         KC_NO,                                                                   KC_NO,      KC_NO,      KC_MS_L,      KC_MS_R,    KC_NO,       KC_NO,
+                            KC_P0,        KC_PDOT,                     KC_TRNS,      KC_TRNS,    KC_TRNS,           KC_TRNS,        KC_TRNS,    KC_TRNS,                KC_NO,        KC_NO,
+                                                                                     KC_TRNS,    KC_TRNS,           KC_TRNS,        KC_TRNS
   ),
 
 };
