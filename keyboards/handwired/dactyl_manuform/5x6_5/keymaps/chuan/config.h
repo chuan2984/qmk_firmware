@@ -27,23 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // activate cap words by pressing both shifts at the same time
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
-// HOME ROW modes
-// #define TAPPING_TERM 180
-// #define TAPPING_TERM_PER_KEY
-// #define QUICK_TAP_TERM 0
-
-// Left-hand home row mods
-// #define GUI_A LGUI_T(KC_A)
-// #define ALT_S LALT_T(KC_S)
-// #define SFT_D LSFT_T(KC_D)
-// #define CTL_F LCTL_T(KC_F)
-
-// Right-hand home row mods
-// #define CTL_J RCTL_T(KC_J)
-// #define SFT_K RSFT_T(KC_K)
-// #define ALT_L LALT_T(KC_L)
-// #define GUI_SCLN RGUI_T(KC_SCLN)
-
 // For Custom TapDance mod SM_TD
 #define MAX_DEFERRED_EXECUTORS 10
 #define SMTD_GLOBAL_TAP_TERM 180

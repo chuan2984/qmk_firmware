@@ -17,6 +17,5 @@ RGBLIGHT_ENABLE = yes               # Enable keyboard RGB underglow
 AUDIO_ENABLE = no                   # Audio output
 SPLIT_KEYBOARD = yes
 CAPS_WORD_ENABLE = yes              # Enable Caps Word
-# DYNAMIC_TAPPING_TERM_ENABLE = yes   # Enable the ability adjust TAPPING_TERM on the fly
 
-DEFERRED_EXEC_ENABLE = yes # Custom Tap Dance https://github.com/stasmarkin/sm_td
+DEFERRED_EXEC_ENABLE = yes          # Custom Tap Dance https://github.com/stasmarkin/sm_td
