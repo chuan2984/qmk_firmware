@@ -89,6 +89,17 @@ void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     }
 }
 
+uint32_t get_smtd_timeout(uint16_t keycode, smtd_timeout timeout) {
+    switch (keycode) {
+        case CKC_A:
+            if (timeout == SMTD_TIMEOUT_TAP) return 250;
+        case CKC_L:
+            if (timeout == SMTD_TIMEOUT_TAP) return 250;
+    }
+
+    return get_smtd_timeout_default(timeout);
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_CHUAN] = LAYOUT_5x6_5(
