@@ -17,5 +17,6 @@ RGBLIGHT_ENABLE = yes               # Enable keyboard RGB underglow
 AUDIO_ENABLE = no                   # Audio output
 SPLIT_KEYBOARD = yes
 CAPS_WORD_ENABLE = yes              # Enable Caps Word
+COMBO_ENABLE = yes                  # Enable combo/chording
 
 DEFERRED_EXEC_ENABLE = yes          # Custom Tap Dance https://github.com/stasmarkin/sm_td

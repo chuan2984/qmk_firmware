@@ -102,6 +102,43 @@ uint32_t get_smtd_timeout(uint16_t keycode, smtd_timeout timeout) {
     return get_smtd_timeout_default(timeout);
 }
 
+enum combos {
+    QW_CAPWORD,
+    HJ_EQL,
+    UI_LBRC,
+    OI_RBRC,
+    JK_LPRN,
+    KL_RPRN,
+    MCOMM_LCBR,
+    COMMDOT_RCBR,
+    NM_DLR,
+    DOTSLSH_DEL
+};
+
+const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
+const uint16_t PROGMEM hj_combo[] = {KC_H, CKC_J, COMBO_END};
+const uint16_t PROGMEM ui_combo[] = {KC_U, KC_I, COMBO_END};
+const uint16_t PROGMEM oi_combo[] = {KC_O, KC_I, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {CKC_J, CKC_K, COMBO_END};
+const uint16_t PROGMEM kl_combo[] = {CKC_K, CKC_L, COMBO_END};
+const uint16_t PROGMEM mcomm_combo[] = {KC_M, KC_COMM, COMBO_END};
+const uint16_t PROGMEM commdot_combo[] = {KC_COMM, KC_DOT, COMBO_END};
+const uint16_t PROGMEM nm_combo[] = {KC_N, KC_M, COMBO_END};
+const uint16_t PROGMEM dotslsh_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
+
+combo_t key_combos[] = {
+    [QW_CAPWORD] = COMBO(qw_combo, CW_TOGG),
+    [HJ_EQL] = COMBO(hj_combo, KC_EQL),
+    [UI_LBRC] = COMBO(ui_combo, KC_LBRC),
+    [OI_RBRC] = COMBO(oi_combo, KC_RBRC),
+    [JK_LPRN] = COMBO(jk_combo, KC_LPRN),
+    [KL_RPRN] = COMBO(kl_combo, KC_RPRN),
+    [MCOMM_LCBR] = COMBO(mcomm_combo, KC_LCBR),
+    [COMMDOT_RCBR] = COMBO(commdot_combo, KC_RCBR),
+    [NM_DLR] = COMBO(nm_combo, KC_DLR),
+    [DOTSLSH_DEL] = COMBO(dotslsh_combo, KC_DEL)
+};
+
 // TODO: insert gaming layer to position 1 and look up how layer stacking works since layer 4 cant use layer2
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
