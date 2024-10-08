@@ -18,5 +18,6 @@ AUDIO_ENABLE = no                   # Audio output
 SPLIT_KEYBOARD = yes
 CAPS_WORD_ENABLE = yes              # Enable Caps Word
 COMBO_ENABLE = yes                  # Enable combo/chording
+REPEAT_KEY_ENABLE = yes             # Enable repeat and reverse repeat
 
 DEFERRED_EXEC_ENABLE = yes          # Custom Tap Dance https://github.com/stasmarkin/sm_td

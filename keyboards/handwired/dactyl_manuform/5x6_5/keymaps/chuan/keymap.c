@@ -146,9 +146,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         INV_1P,      KC_1,      KC_2,        KC_3,          KC_4,          KC_5,                                                                         KC_6,        KC_7,      KC_8,         KC_9,       KC_0,        TT(_GAMING),
         KC_TAB,      KC_Q,      KC_W,        KC_E,          KC_R,          KC_T,                                                                         KC_Y,        KC_U,      KC_I,         KC_O,       KC_P,        KC_UNDS,
         KC_ESC,      CKC_A,     CKC_S,       CKC_D,         CKC_F,         KC_G,                                                                         KC_H,        CKC_J,     CKC_K,        CKC_L,      CKC_SCLN,    KC_QUOT,
-        KC_LSFT,     KC_Z,      KC_X,        KC_C,          KC_V,          KC_B,                                                                         KC_N,        KC_M,      KC_COMM,      KC_DOT,     KC_SLSH,     KC_RSFT,
+        QK_AREP,     KC_Z,      KC_X,        KC_C,          KC_V,          KC_B,                                                                         KC_N,        KC_M,      KC_COMM,      KC_DOT,     KC_SLSH,     KC_RSFT,
                                 KC_LBRC,     KC_RBRC,                      KC_BSPC,     KC_LCTL,       TT(_EXTEND),       TT(_EXTEND),    KC_LGUI,       KC_SPC,                 KC_EQL,       KC_DEL,
-                                                                                        KC_LALT,       TT(_SYMBOL),       TT(_SYMBOL),    KC_ENT
+                                                                                        QK_REP,        TT(_SYMBOL),       TT(_SYMBOL),    KC_ENT
     ),
 
     [_SYMBOL] = LAYOUT_5x6_5(
