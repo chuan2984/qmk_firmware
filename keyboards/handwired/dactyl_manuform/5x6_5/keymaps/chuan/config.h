@@ -23,9 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // two taps to toggle a layer on with TT
 #define TAPPING_TOGGLE 2
-
-// activate cap words by pressing both shifts at the same time
-#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+#define ONESHOT_TAP_TOGGLE 3
 
 // For Custom TapDance mod SM_TD
 #define MAX_DEFERRED_EXECUTORS 10
