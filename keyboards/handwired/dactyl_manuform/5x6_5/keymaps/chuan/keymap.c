@@ -22,6 +22,10 @@
 
 #include QMK_KEYBOARD_H
 
+#ifndef COMBO_TAP_TERM
+#define COMBO_TAP_TERM TAPPING_TERM
+#endif
+
 // layer declarations
 enum custom_layers {
     _CHUAN = 0,
@@ -131,13 +135,61 @@ combo_t key_combos[] = {
     [HJ_EQL] = COMBO(hj_combo, KC_EQL),
     [UI_LBRC] = COMBO(ui_combo, KC_LBRC),
     [OI_RBRC] = COMBO(oi_combo, KC_RBRC),
-    [JK_LPRN] = COMBO(jk_combo, KC_LPRN),
-    [KL_RPRN] = COMBO(kl_combo, KC_RPRN),
+    [JK_LPRN] = COMBO_ACTION(jk_combo),
+    [KL_RPRN] = COMBO_ACTION(kl_combo),
     [MCOMM_LCBR] = COMBO(mcomm_combo, KC_LCBR),
     [COMMDOT_RCBR] = COMBO(commdot_combo, KC_RCBR),
     [NM_DLR] = COMBO(nm_combo, KC_DLR),
     [DOTSLSH_DEL] = COMBO(dotslsh_combo, KC_DEL)
 };
+
+static uint8_t mods_before_combo = 0;
+static uint32_t last_combo_pressed = 0;
+// https://github.com/stasmarkin/sm_voyager_keymap/blob/cf9dd93dcab8d8069c005abb973441f5b6c7609d/sm/sm_voyager_combo.h#L524
+// This is copied from the above link t work with sm_td
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    if (pressed) {
+        mods_before_combo = get_mods();
+    }
+
+    switch(combo_index) {
+        // send keycode for ( when tapped
+        // otherwise add left shift and alt as if they were held
+        case JK_LPRN:
+            if (pressed) {
+                mods_before_combo = timer_read32();
+                add_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_CTRL));
+                send_keyboard_report();
+            } else {
+                del_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_CTRL));
+                if (((int32_t) TIMER_DIFF_32(timer_read32(), last_combo_pressed)) < COMBO_TAP_TERM) {
+                    tap_code16(KC_LPRN);
+                } else {
+                    send_keyboard_report();
+                }
+            }
+            break;
+        // send keycode for ) when tapped
+        // otherwise add left shift and alt as if they were held
+        case KL_RPRN:
+            if (pressed) {
+                mods_before_combo = timer_read32();
+                add_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_ALT));
+                senkd_keyboard_report();
+            } else {
+                del_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_ALT));
+                if (((int32_t) TIMER_DIFF_32(timer_read32(), last_combo_pressed)) < COMBO_TAP_TERM) {
+                    tap_code16(KC_RPRN);
+                } else {
+                    send_keyboard_report();
+                }
+            }
+            break;
+    }
+    if (pressed) {
+        last_combo_pressed = timer_read32();
+    }
+}
 
 // TODO: insert gaming layer to position 1 and look up how layer stacking works since layer 4 cant use layer2
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
