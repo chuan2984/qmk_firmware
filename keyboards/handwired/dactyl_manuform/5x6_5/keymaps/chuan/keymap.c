@@ -175,7 +175,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 mods_before_combo = timer_read32();
                 add_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_ALT));
-                senkd_keyboard_report();
+                send_keyboard_report();
             } else {
                 del_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_ALT));
                 if (((int32_t) TIMER_DIFF_32(timer_read32(), last_combo_pressed)) < COMBO_TAP_TERM) {
@@ -191,7 +191,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     }
 }
 
-// TODO: insert gaming layer to position 1 and look up how layer stacking works since layer 4 cant use layer2
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_CHUAN] = LAYOUT_5x6_5(
@@ -199,8 +198,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,      KC_Q,      KC_W,        KC_E,          KC_R,          KC_T,                                                                         KC_Y,        KC_U,      KC_I,         KC_O,       KC_P,        KC_UNDS,
         KC_ESC,      CKC_A,     CKC_S,       CKC_D,         CKC_F,         KC_G,                                                                         KC_H,        CKC_J,     CKC_K,        CKC_L,      CKC_SCLN,    KC_QUOT,
         QK_AREP,     KC_Z,      KC_X,        KC_C,          KC_V,          KC_B,                                                                         KC_N,        KC_M,      KC_COMM,      KC_DOT,     KC_SLSH,     KC_COLN,
-                                KC_LEFT,     KC_RGHT,                      KC_BSPC,     OSL(_EXTEND),   KC_PGUP,        KC_HOME,    OSL(_SYMBOL),        KC_SPC,                 KC_UP,        KC_DOWN,
-                                                                                        QK_REP,         KC_PGDN,        KC_END,     KC_ENT
+                                KC_LEFT,     KC_RGHT,                      KC_BSPC,     OSL(_EXTEND),   KC_PGUP,        KC_HOME,     OSL(_SYMBOL),       KC_SPC,                 KC_UP,        KC_DOWN,
+                                                                                        QK_REP,         KC_PGDN,        KC_END,      KC_ENT
+    ),
+
+    [_GAMING] = LAYOUT_5x6_5(
+        KC_TRNS,     KC_TRNS,   KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
+        KC_TRNS,     KC_TRNS,   KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
+        KC_TRNS,     KC_A,      KC_S,        KC_D,          KC_F,          KC_TRNS,                                                                      KC_TRNS,     KC_J,      KC_K,         KC_L,       KC_SCLN,     KC_TRNS,
+        KC_TRNS,     KC_TRNS,   KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
+                                KC_TRNS,     KC_TRNS,                      KC_TRNS,     KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS,        KC_TRNS,                KC_TRNS,      KC_TRNS,
+                                                                                        KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS
     ),
 
     [_SYMBOL] = LAYOUT_5x6_5(
@@ -220,15 +228,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_P0,        KC_PDOT,                     KC_TRNS,    KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS,         KC_TRNS,                KC_NO,        KC_NO,
                                                                                        KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS
     ),
-
-    [_GAMING] = LAYOUT_5x6_5(
-        INV_1P,      KC_1,      KC_2,        KC_3,          KC_4,          KC_5,                                                                         KC_6,        KC_7,      KC_8,         KC_9,       KC_0,        TT(_GAMING),
-        KC_TAB,      KC_Q,      KC_W,        KC_E,          KC_R,          KC_T,                                                                         KC_Y,        KC_U,      KC_I,         KC_O,       KC_P,        KC_UNDS,
-        KC_ESC,      KC_A,      KC_S,        KC_D,          KC_F,          KC_G,                                                                         KC_H,        KC_J,      KC_K,         KC_L,       KC_SCLN,     KC_QUOT,
-        KC_LSFT,     KC_Z,      KC_X,        KC_C,          KC_V,          KC_B,                                                                         KC_N,        KC_M,      KC_COMM,      KC_DOT,     KC_SLSH,     KC_RSFT,
-                                KC_LBRC,     KC_RBRC,                      KC_BSPC,     KC_LCTL,       TT(_EXTEND),       TT(_EXTEND),    KC_LGUI,       KC_SPC,                 KC_EQL,       KC_DEL,
-                                                                                        KC_LALT,       TT(_SYMBOL),       TT(_SYMBOL),    KC_ENT
-    ),
 };
 
 // RGB Modes
@@ -247,29 +246,11 @@ void persistent_default_layer_set(uint16_t default_layer) {
 }
 
 // Light LEDs 1 through 8 in cyan when keyboard layer 1 is active
-const rgblight_segment_t PROGMEM my_layer0_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+const rgblight_segment_t PROGMEM base_0_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 20, HSV_LUNA}
 );
 
-const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 3, HSV_LUNA},
-    {3, 4, HSV_ORANGE},
-    {7, 3, HSV_LUNA},
-    {10, 3, HSV_LUNA},
-    {13, 4, HSV_ORANGE},
-    {17, 3, HSV_LUNA}
-);
-
-const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 3, HSV_LUNA},
-    {3, 4, HSV_CHARTREUSE},
-    {7, 3, HSV_LUNA},
-    {10, 3, HSV_LUNA},
-    {13, 4, HSV_CHARTREUSE},
-    {17, 3, HSV_LUNA}
-);
-
-const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+const rgblight_segment_t PROGMEM gaming_1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 3, HSV_LUNA},
     {3, 4, HSV_RED},
     {7, 3, HSV_LUNA},
@@ -278,11 +259,29 @@ const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {17, 3, HSV_LUNA}
 );
 
+const rgblight_segment_t PROGMEM symbol_2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 3, HSV_LUNA},
+    {3, 4, HSV_ORANGE},
+    {7, 3, HSV_LUNA},
+    {10, 3, HSV_LUNA},
+    {13, 4, HSV_ORANGE},
+    {17, 3, HSV_LUNA}
+);
+
+const rgblight_segment_t PROGMEM extend_3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 3, HSV_LUNA},
+    {3, 4, HSV_CHARTREUSE},
+    {7, 3, HSV_LUNA},
+    {10, 3, HSV_LUNA},
+    {13, 4, HSV_CHARTREUSE},
+    {17, 3, HSV_LUNA}
+);
+
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    my_layer0_layer,
-    my_layer1_layer,
-    my_layer2_layer,
-    my_layer3_layer
+    base_0_layer,
+    gaming_1_layer,
+    symbol_2_layer,
+    extend_3_layer
 );
 
 void keyboard_post_init_user(void) {
@@ -292,8 +291,8 @@ void keyboard_post_init_user(void) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(0, layer_state_cmp(state, _CHUAN));
-    rgblight_set_layer_state(1, layer_state_cmp(state, _SYMBOL));
-    rgblight_set_layer_state(2, layer_state_cmp(state, _EXTEND));
-    rgblight_set_layer_state(3, layer_state_cmp(state, _GAMING));
+    rgblight_set_layer_state(1, layer_state_cmp(state, _GAMING));
+    rgblight_set_layer_state(2, layer_state_cmp(state, _SYMBOL));
+    rgblight_set_layer_state(3, layer_state_cmp(state, _EXTEND));
     return state;
 }
