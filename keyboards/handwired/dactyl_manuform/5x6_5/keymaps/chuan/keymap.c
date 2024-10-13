@@ -50,7 +50,7 @@ enum custom_keycodes {
     SMTD_KEYCODES_END,
 };
 
-// needs to be after custom_keycode declariation according to sm_td
+// needs to be after custom_keycode declaration according to sm_td
 #include "sm_td.h"
 
 // define keycodes
@@ -216,16 +216,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,    KC_QUOT,    KC_LT,        KC_GT,        KC_DQUO,       KC_HASH,                                                                      KC_AMPR,    DB_COLN,    KC_LBRC,      KC_RBRC,    KC_PERC,     KC_TRNS,
         KC_TRNS,    KC_EXLM,    KC_MINS,      KC_PLUS,      KC_EQL,        KC_GRV,                                                                       KC_PIPE,    KC_COLN,    KC_LPRN,      KC_RPRN,    KC_QUES,     KC_TRNS,
         KC_TRNS,    KC_CIRC,    KC_SLSH,      KC_ASTR,      KC_BSLS,       PARENT_DIR,                                                                   KC_TILD,    KC_DLR,     KC_LCBR,      KC_RCBR,    KC_AT,       KC_TRNS,
-                                KC_PGUP,      KC_PGDN,                     KC_TRNS,     KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS,        KC_TRNS,                KC_HOME,      KC_END,
+                                KC_TRNS,      KC_TRNS,                     KC_TRNS,     KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS,        KC_TRNS,                KC_TRNS,      KC_TRNS,
                                                                                         KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS
     ),
 
     [_EXTEND] = LAYOUT_5x6_5(
-        KC_TRNS,    KC_NO,      KC_NO,        KC_NO,        KC_NO,         KC_NO,                                                                        KC_NO,      KC_NO,      KC_NO,        KC_NO,      KC_NO,       KC_NO,
-        KC_TRNS,    KC_NO,      KC_P7,        KC_P8,        KC_P9,         KC_NO,                                                                        KC_NO,      KC_NO,      KC_NO,        KC_NO,      KC_NO,       KC_NO,
-        KC_TRNS,    KC_NO,      KC_P4,        KC_P5,        KC_P6,         KC_NO,                                                                        KC_LEFT,    KC_DOWN,    KC_UP,        KC_RGHT,    KC_NO,       KC_NO,
-        KC_TRNS,    KC_NO,      KC_P1,        KC_P2,        KC_P3,         KC_NO,                                                                        KC_NO,      KC_NO,      KC_NO,        KC_NO,      KC_NO,       KC_NO,
-                                KC_P0,        KC_PDOT,                     KC_TRNS,    KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS,         KC_TRNS,                KC_NO,        KC_NO,
+        KC_TRNS,    KC_TRNS,    KC_TRNS,      KC_TRNS,      KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,    KC_TRNS,    KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
+        KC_TRNS,    KC_TRNS,    KC_TRNS,      KC_TRNS,      KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,    KC_TRNS,    KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
+        KC_TRNS,    KC_P6,      KC_P4,        KC_P0,        KC_P2,         KC_TRNS,                                                                      KC_TRNS,    KC_P3,      KC_P1,        KC_P5,      KC_P7,       KC_TRNS,
+        KC_TRNS,    KC_TRNS,    KC_TRNS,      LSFT(KC_G),   KC_P8,         KC_TRNS,                                                                      KC_TRNS,    KC_P9,      KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
+                                KC_TRNS,      KC_TRNS,                     KC_TRNS,    KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS,         KC_TRNS,                KC_TRNS,      KC_TRNS,
                                                                                        KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS
     ),
 };
