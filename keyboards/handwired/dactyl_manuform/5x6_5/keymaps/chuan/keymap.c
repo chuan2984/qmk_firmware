@@ -203,12 +203,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_GAMING] = LAYOUT_5x6_5(
-        KC_TRNS,     KC_TRNS,   KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
+        KC_CAPS,     KC_TRNS,   KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
         KC_TRNS,     KC_TRNS,   KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
         KC_TRNS,     KC_A,      KC_S,        KC_D,          KC_F,          KC_TRNS,                                                                      KC_TRNS,     KC_J,      KC_K,         KC_L,       KC_SCLN,     KC_TRNS,
-        KC_TRNS,     KC_TRNS,   KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
-                                KC_TRNS,     KC_TRNS,                      KC_TRNS,     KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS,        KC_TRNS,                KC_TRNS,      KC_TRNS,
-                                                                                        KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS
+        KC_LSFT,     KC_TRNS,   KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                                                                      KC_TRNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,     KC_TRNS,
+                                KC_TRNS,     KC_TRNS,                      KC_TRNS,     KC_LGUI,       KC_TRNS,         KC_TRNS,        KC_TRNS,         KC_TRNS,                KC_TRNS,      KC_TRNS,
+                                                                                        KC_LALT,       KC_TRNS,         KC_TRNS,        KC_TRNS
     ),
 
     [_SYMBOL] = LAYOUT_5x6_5(
