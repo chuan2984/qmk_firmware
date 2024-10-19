@@ -104,7 +104,9 @@ enum combos {
     MCOMM_LCBR,
     COMMDOT_RCBR,
     NM_DLR,
-    DOTSLSH_DEL
+    DOTSLSH_DEL,
+    WE_LT,
+    ER_GT
 };
 
 const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
@@ -117,6 +119,8 @@ const uint16_t PROGMEM mcomm_combo[] = {KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM commdot_combo[] = {KC_COMM, KC_DOT, COMBO_END};
 const uint16_t PROGMEM nm_combo[] = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM dotslsh_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
+const uint16_t PROGMEM we_lt[] = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM er_gt[] = {KC_E, KC_R, COMBO_END};
 
 combo_t key_combos[] = {
     [QW_CAPWORD] = COMBO(qw_combo, CW_TOGG),
@@ -128,7 +132,9 @@ combo_t key_combos[] = {
     [MCOMM_LCBR] = COMBO(mcomm_combo, KC_LCBR),
     [COMMDOT_RCBR] = COMBO(commdot_combo, KC_RCBR),
     [NM_DLR] = COMBO(nm_combo, KC_DLR),
-    [DOTSLSH_DEL] = COMBO(dotslsh_combo, KC_DEL)
+    [DOTSLSH_DEL] = COMBO(dotslsh_combo, KC_DEL),
+    [WE_LT] = COMBO(we_lt, KC_LT),
+    [ER_GT] = COMBO(er_gt, KC_GT)
 };
 
 static uint8_t mods_before_combo = 0;
