@@ -1,30 +1,10 @@
-/*
-  Copyright (c) 2020 Fred Silberberg
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  THE SOFTWARE.
-*/
-
 #include QMK_KEYBOARD_H
 
 #ifndef COMBO_TAP_TERM
 #define COMBO_TAP_TERM TAPPING_TERM
 #endif
+
+#define TWO_KEY_WINDOW 700
 
 enum custom_layers {
     _CHUAN = 0,
@@ -35,6 +15,18 @@ enum custom_layers {
 
 enum custom_keycodes {
     C_PBRAC = SAFE_RANGE,
+    C_RBRC_M,
+    C_RBRC_F,
+    C_RBRC_B,
+    C_RBRC_Q,
+    C_RBRC_I,
+    C_RBRC_H,
+    C_LBRC_M,
+    C_LBRC_F,
+    C_LBRC_B,
+    C_LBRC_Q,
+    C_LBRC_I,
+    C_LBRC_H,
     SMTD_KEYCODES_BEGIN,
     CKC_A, // reads as C(ustom) + KC_A, but you may give any name here
     CKC_S,
@@ -50,10 +42,29 @@ enum custom_keycodes {
 // needs to be after custom_keycode declaration according to sm_td
 #include "sm_td.h"
 
-// define keycodes
+static uint16_t last_two_keys[2] = {KC_NO, KC_NO};
+static uint32_t last_keypress_timer = 0;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_smtd(keycode, record)) {
         return false;
+    }
+
+    // this may not work with smtd mod keys as this would be skipped
+    // not worrying about it right now since the mods will not be used
+    // in the 2 key repeat combos
+    // TODO: keep the last 2 keys around if no other keys have been pressed
+    if (record->event.pressed) {
+        uint32_t time_elapsed = timer_elapsed32(last_keypress_timer);
+        if (time_elapsed < TWO_KEY_WINDOW) {
+            last_two_keys[1] = last_two_keys[0];
+            last_two_keys[0] = keycode;
+        } else {
+            // If not, start a new potential combo
+            last_two_keys[1] = KC_NO;
+            last_two_keys[0] = keycode;
+        }
+        last_keypress_timer = timer_read32();
     }
 
     switch (keycode) {
@@ -63,10 +74,122 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_LEFT);
                 unregister_code(KC_LEFT);
             }
+            return false;
+        case C_RBRC_M:
+            if (record->event.pressed) {
+                SEND_STRING("]m");
+            }
+            return false;
+        case C_RBRC_F:
+            if (record->event.pressed) {
+                SEND_STRING("]f");
+            }
+            return false;
+        case C_RBRC_B:
+            uprintf("in rbrc_b");
+            if (record->event.pressed) {
+                SEND_STRING("]b");
+            }
+            return false;
+        case C_RBRC_Q:
+            if (record->event.pressed) {
+                SEND_STRING("]q");
+            }
+            return false;
+        case C_RBRC_I:
+            if (record->event.pressed) {
+                SEND_STRING("[i");
+            }
+            return false;
+        case C_RBRC_H:
+            if (record->event.pressed) {
+                SEND_STRING("[h");
+            }
+            return false;
+        case C_LBRC_M:
+            if (record->event.pressed) {
+                SEND_STRING("[m");
+            }
+            return false;
+        case C_LBRC_F:
+            if (record->event.pressed) {
+                SEND_STRING("[f");
+            }
+            return false;
+        case C_LBRC_B:
+            uprintf("in lbrc_b");
+            if (record->event.pressed) {
+                SEND_STRING("[b");
+            }
+            return false;
+        case C_LBRC_Q:
+            if (record->event.pressed) {
+                SEND_STRING("[q");
+            }
+            return false;
+        case C_LBRC_I:
+            if (record->event.pressed) {
+                SEND_STRING("[i");
+            }
+            return false;
+        case C_LBRC_H:
+            if (record->event.pressed) {
+                SEND_STRING("]h");
+            }
+            return false;
         default:
             return true;
     }
 };
+
+typedef struct {
+    uint16_t prev;
+    uint16_t curr;
+    uint16_t alt;
+} repeat_key_table_t;
+
+const repeat_key_table_t repeat_key_table[] = {
+    { KC_LBRC, KC_M, C_RBRC_M },
+    { KC_LBRC, KC_F, C_RBRC_F },
+    { KC_LBRC, KC_B, C_RBRC_B },
+    { KC_LBRC, KC_Q, C_RBRC_Q },
+    { KC_LBRC, KC_I, C_RBRC_I },
+    { KC_LBRC, KC_H, C_RBRC_H },
+    { KC_RBRC, KC_M, C_LBRC_M },
+    { KC_RBRC, KC_F, C_LBRC_F },
+    { KC_RBRC, KC_B, C_LBRC_B },
+    { KC_RBRC, KC_Q, C_LBRC_Q },
+    { KC_RBRC, KC_I, C_LBRC_I },
+    { KC_RBRC, KC_H, C_LBRC_H },
+};
+
+uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
+    if ((mods & MOD_MASK_CTRL)) {
+        switch (keycode) {
+            case KC_R: return KC_U;
+        }
+    }
+
+    if (last_two_keys[1] != KC_NO) {
+        for (int i = 0; i < sizeof(repeat_key_table) / sizeof(repeat_key_table_t); i++) {
+            if (last_two_keys[0] == repeat_key_table[i].curr && last_two_keys[1] == repeat_key_table[i].prev) {
+                return repeat_key_table[i].alt;
+            }
+        }
+    }
+
+    switch (keycode) {
+        case KC_U: return C(KC_R);
+        case KC_SCLN: return KC_COMM;
+        case KC_COMM: return KC_SCLN;
+        case KC_ASTR: return KC_HASH;
+        case KC_HASH: return KC_ASTR;
+        case KC_DLR: return KC_CIRC;
+        case KC_CIRC: return KC_DLR;
+    }
+
+    return KC_TRNS;  // Defer to default definitions.
+}
 
 void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     switch (keycode) {
@@ -223,7 +346,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                        KC_TRNS,        KC_TRNS,         KC_TRNS,        KC_TRNS
     ),
 };
-
 // RGB Modes
 // 1 = Static
 // 2-5 = Breathing
