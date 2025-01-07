@@ -164,21 +164,12 @@ typedef struct {
         .idx = 0                                    \
 }
 
-#define REPEAT_1(expr) expr
-#define REPEAT_2(expr) expr, REPEAT_1(expr)
-#define REPEAT_3(expr) expr, REPEAT_2(expr)
-#define REPEAT_4(expr) expr, REPEAT_3(expr)
-#define REPEAT_5(expr) expr, REPEAT_4(expr)
-#define REPEAT_6(expr) expr, REPEAT_5(expr)
-#define REPEAT_7(expr) expr, REPEAT_6(expr)
-#define REPEAT_8(expr) expr, REPEAT_7(expr)
-#define REPEAT_9(expr) expr, REPEAT_8(expr)
-#define REPEAT_10(expr) expr, REPEAT_9(expr)
-#define REPEAT_N(N, expr) REPEAT_##N(expr)
-
-#define SMTD_POOL_SIZE 1
-static smtd_state *smtd_active_states[SMTD_POOL_SIZE] = {REPEAT_N(SMTD_POOL_SIZE, NULL)};
-static smtd_state smtd_states_pool[SMTD_POOL_SIZE] = {REPEAT_N(SMTD_POOL_SIZE, EMPTY_STATE)};
+#define SMTD_POOL_SIZE 10
+static smtd_state *smtd_active_states[SMTD_POOL_SIZE] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+static smtd_state smtd_states_pool[SMTD_POOL_SIZE] = {
+    EMPTY_STATE, EMPTY_STATE, EMPTY_STATE, EMPTY_STATE, EMPTY_STATE,
+    EMPTY_STATE, EMPTY_STATE, EMPTY_STATE, EMPTY_STATE, EMPTY_STATE
+};
 static uint8_t smtd_active_states_size = 0;
 static bool smtd_bypass = false;
 
