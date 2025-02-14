@@ -29,3 +29,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MAX_DEFERRED_EXECUTORS 10
 #define SMTD_GLOBAL_TAP_TERM 180
 #define SMTD_GLOBAL_RELEASE_TERM 40
+#define COMBO_SHOULD_TRIGGER
