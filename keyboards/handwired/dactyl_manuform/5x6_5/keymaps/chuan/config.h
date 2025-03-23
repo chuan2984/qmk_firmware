@@ -25,8 +25,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_TOGGLE 2
 #define ONESHOT_TAP_TOGGLE 3
 
-// For Custom TapDance mod SM_TD
-#define MAX_DEFERRED_EXECUTORS 10
-#define SMTD_GLOBAL_TAP_TERM 180
-#define SMTD_GLOBAL_RELEASE_TERM 40
-#define COMBO_SHOULD_TRIGGER
+#define TAPPING_TERM 180
+#define QUICK_TAP_TERM 0
+
+// Left-hand home row mods
+#define GUI_A LGUI_T(KC_A)
+#define ALT_S LALT_T(KC_S)
+#define SFT_D LSFT_T(KC_D)
+#define CTL_F LCTL_T(KC_F)
+
+// Right-hand home row mods
+#define CTL_J RCTL_T(KC_J)
+#define SFT_K RSFT_T(KC_K)
+#define ALT_L LALT_T(KC_L)
+#define GUI_SCLN RGUI_T(KC_SCLN)
