@@ -25,3 +25,6 @@
 	path = lib/lvgl
 	url = https://github.com/qmk/lvgl.git
 	branch = release/v8.2
+[submodule "keyboards/handwired/dactyl_manuform/5x6_5/keymaps/chuan/qmk-vim"]
+	path = keyboards/handwired/dactyl_manuform/5x6_5/keymaps/chuan/qmk-vim
+	url = https://github.com/andrewjrae/qmk-vim.git

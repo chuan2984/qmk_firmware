@@ -21,4 +21,5 @@ COMBO_ENABLE = yes                  # Enable combo/chording
 REPEAT_KEY_ENABLE = yes             # Enable repeat and reverse repeat
 EXTRAFLAGS += -flto
 
-DEFERRED_EXEC_ENABLE = yes          # Custom Tap Dance https://github.com/stasmarkin/sm_td
+include $(KEYBOARD_PATH_1)/keymaps/$(KEYMAP)/qmk-vim/rules.mk
+

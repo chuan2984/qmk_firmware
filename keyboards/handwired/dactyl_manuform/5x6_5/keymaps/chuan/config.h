@@ -39,3 +39,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SFT_K RSFT_T(KC_K)
 #define ALT_L LALT_T(KC_L)
 #define GUI_SCLN RGUI_T(KC_SCLN)
+
+// Vim related
+#define BETTER_VISUAL_MODE
+#define VIM_I_TEXT_OBJECTS
+#define VIM_A_TEXT_OBJECTS
+#define VIM_G_MOTIONS
+#define VIM_COLON_CMDS
+#define VIM_PASTE_BEFORE
+#define VIM_REPLACE
+#define VIM_DOT_REPEAT
+#define VIM_W_BEGINNING_OF_WORD
+#define VIM_NUMBERED_JUMPS
+#define ONESHOT_VIM
+#define VIM_FOR_MAC

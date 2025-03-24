@@ -13,17 +13,47 @@ enum custom_layers {
 
 enum custom_keycodes {
     C_PBRAC = SAFE_RANGE,
+    TOG_VIM
 };
 
-// define keycodes
+static uint8_t current_vim_layer = 255;
+
+void set_vim_rgb_layer(uint8_t layer) {
+    if (layer == current_vim_layer) return;
+
+    rgblight_set_layer_state(4, false);
+    rgblight_set_layer_state(5, false);
+    rgblight_set_layer_state(6, false);
+    rgblight_set_layer_state(7, false);
+
+    if (layer != 255) {
+        rgblight_set_layer_state(layer, true);
+    }
+    current_vim_layer = layer;
+}
+
+#include "qmk-vim/src/vim.h"
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_vim_mode(keycode, record)) {
+        return false;
+    }
     switch (keycode) {
+        case TOG_VIM:
+            if (record->event.pressed) {
+                toggle_vim_mode();
+
+                if (!vim_mode_enabled()) {
+                    set_vim_rgb_layer(255);
+                }
+            }
+            return false;
         case C_PBRAC:
             if (record->event.pressed) {
                 SEND_STRING("{}");
                 register_code(KC_LEFT);
                 unregister_code(KC_LEFT);
             }
+            return false;
         default:
             return true;
     }
@@ -41,7 +71,8 @@ enum combos {
     NM_DLR,
     DOTSLSH_DEL,
     WE_LT,
-    ER_GT
+    ER_GT,
+    ZX_TOG_VIM
 };
 
 const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
@@ -56,6 +87,7 @@ const uint16_t PROGMEM nm_combo[] = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM dotslsh_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM we_lt[] = {KC_W, KC_E, COMBO_END};
 const uint16_t PROGMEM er_gt[] = {KC_E, KC_R, COMBO_END};
+const uint16_t PROGMEM zx_tog_vim[] = {KC_Z, KC_X, COMBO_END};
 
 combo_t key_combos[] = {
     [QW_CAPWORD] = COMBO(qw_combo, CW_TOGG),
@@ -69,7 +101,8 @@ combo_t key_combos[] = {
     [NM_DLR] = COMBO(nm_combo, KC_DLR),
     [DOTSLSH_DEL] = COMBO(dotslsh_combo, KC_DEL),
     [WE_LT] = COMBO(we_lt, KC_LT),
-    [ER_GT] = COMBO(er_gt, KC_GT)
+    [ER_GT] = COMBO(er_gt, KC_GT),
+    [ZX_TOG_VIM] = COMBO(zx_tog_vim, TOG_VIM)
 };
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
@@ -241,37 +274,42 @@ const rgblight_segment_t PROGMEM base_0_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 );
 
 const rgblight_segment_t PROGMEM gaming_1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 3, HSV_LUNA},
-    {3, 4, HSV_RED},
-    {7, 3, HSV_LUNA},
-    {10, 3, HSV_LUNA},
-    {13, 4, HSV_RED},
-    {17, 3, HSV_LUNA}
+    {0, 20, HSV_RED}
 );
 
 const rgblight_segment_t PROGMEM symbol_2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 3, HSV_LUNA},
-    {3, 4, HSV_ORANGE},
-    {7, 3, HSV_LUNA},
-    {10, 3, HSV_LUNA},
-    {13, 4, HSV_ORANGE},
-    {17, 3, HSV_LUNA}
+    {0, 20, HSV_ORANGE}
 );
 
 const rgblight_segment_t PROGMEM extend_3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 3, HSV_LUNA},
-    {3, 4, HSV_CHARTREUSE},
-    {7, 3, HSV_LUNA},
-    {10, 3, HSV_LUNA},
-    {13, 4, HSV_CHARTREUSE},
-    {17, 3, HSV_LUNA}
+    {0, 20, HSV_YELLOW}
+);
+
+const rgblight_segment_t PROGMEM vim_insert_4_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 20, HSV_CYAN}
+);
+
+const rgblight_segment_t PROGMEM vim_normal_5_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 20, HSV_BLUE}
+);
+
+const rgblight_segment_t PROGMEM vim_visual_6_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 20, HSV_PINK}
+);
+
+const rgblight_segment_t PROGMEM vim_visual_line_7_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 20, HSV_PURPLE}
 );
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     base_0_layer,
     gaming_1_layer,
     symbol_2_layer,
-    extend_3_layer
+    extend_3_layer,
+    vim_insert_4_layer,
+    vim_normal_5_layer,
+    vim_visual_6_layer,
+    vim_visual_line_7_layer
 );
 
 void keyboard_post_init_user(void) {
@@ -279,10 +317,32 @@ void keyboard_post_init_user(void) {
     rgblight_layers = my_rgb_layers;
 }
 
+void insert_mode_user(void) {
+  set_vim_rgb_layer(4);
+}
+
+void normal_mode_user(void) {
+  set_vim_rgb_layer(5);
+}
+
+void visual_mode_user(void) {
+  set_vim_rgb_layer(6);
+}
+
+void visual_line_mode_user(void) {
+  set_vim_rgb_layer(7);
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(0, layer_state_cmp(state, _CHUAN));
     rgblight_set_layer_state(1, layer_state_cmp(state, _GAMING));
     rgblight_set_layer_state(2, layer_state_cmp(state, _SYMBOL));
     rgblight_set_layer_state(3, layer_state_cmp(state, _EXTEND));
+
+    // TODO: while vim-mode is on, the other layer lights dont come thru
+    if (!vim_mode_enabled()) {
+        set_vim_rgb_layer(255);
+    }
+
     return state;
 }
