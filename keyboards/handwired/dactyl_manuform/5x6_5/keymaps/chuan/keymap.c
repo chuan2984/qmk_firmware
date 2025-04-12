@@ -27,14 +27,6 @@ enum custom_keycodes {
     C_LBRC_Q,
     C_LBRC_I,
     C_LBRC_H,
-    CKC_A, // reads as C(ustom) + KC_A, but you may give any name here
-    CKC_S,
-    CKC_D,
-    CKC_F,
-    CKC_J,
-    CKC_K,
-    CKC_L,
-    CKC_SCLN
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -42,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_CHUAN] = LAYOUT_5x6_5(
         KC_NO,       KC_1,      KC_2,        KC_3,          KC_4,          KC_5,                                                                         KC_6,        KC_7,      KC_8,         KC_9,       KC_0,        OSL(_GAMING),
         KC_TAB,      KC_Q,      KC_W,        KC_E,          KC_R,          KC_T,                                                                         KC_Y,        KC_U,      KC_I,         KC_O,       KC_P,        KC_UNDS,
-        KC_ESC,      CKC_A,     CKC_S,       CKC_D,         CKC_F,         KC_G,                                                                         KC_H,        CKC_J,     CKC_K,        CKC_L,      CKC_SCLN,    KC_QUOT,
+        KC_ESC,       KC_A,      KC_S,        KC_D,          KC_F,         KC_G,                                                                         KC_H,        KC_J,      KC_K,        KC_L,      KC_SCLN,    KC_QUOT,
         QK_AREP,     KC_Z,      KC_X,        KC_C,          KC_V,          KC_B,                                                                         KC_N,        KC_M,      KC_COMM,      KC_DOT,     KC_SLSH,     KC_COLN,
                                 KC_LEFT,     KC_RGHT,                      KC_BSPC,     OSL(_EXTEND),   KC_PGUP,        KC_HOME,     OSL(_SYMBOL),       KC_SPC,                 KC_UP,        KC_DOWN,
                                                                                         QK_REP,         KC_PGDN,        KC_END,      KC_ENT
@@ -230,14 +222,14 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
 
 smtd_resolution on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     switch (keycode) {
-        SMTD_MT(CKC_A, KC_A, KC_LEFT_GUI)
-        SMTD_MT(CKC_S, KC_S, KC_LEFT_ALT)
-        SMTD_MT(CKC_D, KC_D, KC_LSFT)
-        SMTD_MT(CKC_F, KC_F, KC_LEFT_CTRL)
-        SMTD_MT(CKC_J, KC_J, KC_RIGHT_CTRL)
-        SMTD_MT(CKC_K, KC_K, KC_RIGHT_SHIFT)
-        SMTD_MT(CKC_L, KC_L, KC_LEFT_ALT)
-        SMTD_MT(CKC_SCLN, KC_SCLN, KC_RIGHT_GUI)
+        SMTD_MT(KC_A, KC_LEFT_GUI)
+        SMTD_MT(KC_S, KC_LEFT_ALT)
+        SMTD_MT(KC_D, KC_LSFT)
+        SMTD_MT(KC_F, KC_LEFT_CTRL)
+        SMTD_MT(KC_J, KC_RIGHT_CTRL)
+        SMTD_MT(KC_K, KC_RIGHT_SHIFT)
+        SMTD_MT(KC_L, KC_LEFT_ALT)
+        SMTD_MT(KC_SCLN, KC_RIGHT_GUI)
     }
 
     return SMTD_RESOLUTION_UNHANDLED;
@@ -245,10 +237,10 @@ smtd_resolution on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap
 
 uint32_t get_smtd_timeout(uint16_t keycode, smtd_timeout timeout) {
     switch (keycode) {
-        case CKC_A:
+        case KC_A:
             if (timeout == SMTD_TIMEOUT_TAP) return 280;
             if (timeout == SMTD_TIMEOUT_RELEASE) return 25;
-        case CKC_L:
+        case KC_L:
             if (timeout == SMTD_TIMEOUT_TAP) return 280;
             if (timeout == SMTD_TIMEOUT_RELEASE) return 30;
     }
@@ -272,11 +264,11 @@ enum combos {
 };
 
 const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
-const uint16_t PROGMEM hj_combo[] = {KC_H, CKC_J, COMBO_END};
+const uint16_t PROGMEM hj_combo[] = {KC_H, KC_J, COMBO_END};
 const uint16_t PROGMEM ui_combo[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM oi_combo[] = {KC_O, KC_I, COMBO_END};
-const uint16_t PROGMEM jk_combo[] = {CKC_J, CKC_K, COMBO_END};
-const uint16_t PROGMEM kl_combo[] = {CKC_K, CKC_L, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM kl_combo[] = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM mcomm_combo[] = {KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM commdot_combo[] = {KC_COMM, KC_DOT, COMBO_END};
 const uint16_t PROGMEM nm_combo[] = {KC_N, KC_M, COMBO_END};
