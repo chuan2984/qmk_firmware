@@ -1,9 +1,7 @@
 #pragma once
 
-#include QMK_KEYBOARD_H
-
 #ifndef COMBO_TAP_TERM
-#define COMBO_TAP_TERM TAPPING_TERM
+#    define COMBO_TAP_TERM TAPPING_TERM
 #endif
 
 enum combos {
@@ -19,6 +17,5 @@ enum combos {
     DOTSLSH_DEL,
     WE_LT,
     ER_GT,
-    ZX_TOG_VIM
+    ZX_TOG_VIM,
 };
-

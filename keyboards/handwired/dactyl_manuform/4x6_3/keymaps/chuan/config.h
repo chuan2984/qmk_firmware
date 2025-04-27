@@ -36,3 +36,5 @@
 #define VIM_NUMBERED_JUMPS
 #define ONESHOT_VIM
 #define VIM_FOR_MAC
+
+#define COMBO_TERM_PER_COMBO
