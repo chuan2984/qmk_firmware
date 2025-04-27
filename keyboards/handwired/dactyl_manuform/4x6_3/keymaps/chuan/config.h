@@ -23,7 +23,7 @@
 #define ALT_L LALT_T(KC_L)
 #define GUI_SCLN RGUI_T(KC_SCLN)
 
-// Vim related
+// Vim related, has to be defined here
 #define BETTER_VISUAL_MODE
 #define VIM_I_TEXT_OBJECTS
 #define VIM_A_TEXT_OBJECTS
@@ -33,8 +33,8 @@
 #define VIM_REPLACE
 #define VIM_DOT_REPEAT
 #define VIM_W_BEGINNING_OF_WORD
-#define VIM_NUMBERED_JUMPS
-#define ONESHOT_VIM
+// #define VIM_NUMBERED_JUMPS
+// #define ONESHOT_VIM
 #define VIM_FOR_MAC
 
 #define COMBO_TERM_PER_COMBO
