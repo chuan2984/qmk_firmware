@@ -2,10 +2,7 @@
 #include "features/vim_mode.h"
 #include "features/layers.h"
 #include "features/keycodes.h"
-
-#ifndef COMBO_TAP_TERM
-#define COMBO_TAP_TERM TAPPING_TERM
-#endif
+#include "features/combos.h"
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_vim_record(keycode, record)) {
@@ -21,109 +18,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         default:
             return true;
-    }
-}
-
-enum combos {
-    QW_CAPWORD,
-    HJ_EQL,
-    UI_LBRC,
-    OI_RBRC,
-    JK_LPRN,
-    KL_RPRN,
-    MCOMM_LCBR,
-    COMMDOT_RCBR,
-    NM_DLR,
-    DOTSLSH_DEL,
-    WE_LT,
-    ER_GT,
-    ZX_TOG_VIM
-};
-
-const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
-const uint16_t PROGMEM hj_combo[] = {KC_H, CTL_J, COMBO_END};
-const uint16_t PROGMEM ui_combo[] = {KC_U, KC_I, COMBO_END};
-const uint16_t PROGMEM oi_combo[] = {KC_O, KC_I, COMBO_END};
-const uint16_t PROGMEM jk_combo[] = {CTL_J, SFT_K, COMBO_END};
-const uint16_t PROGMEM kl_combo[] = {SFT_K, ALT_L, COMBO_END};
-const uint16_t PROGMEM mcomm_combo[] = {KC_M, KC_COMM, COMBO_END};
-const uint16_t PROGMEM commdot_combo[] = {KC_COMM, KC_DOT, COMBO_END};
-const uint16_t PROGMEM nm_combo[] = {KC_N, KC_M, COMBO_END};
-const uint16_t PROGMEM dotslsh_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
-const uint16_t PROGMEM we_lt[] = {KC_W, KC_E, COMBO_END};
-const uint16_t PROGMEM er_gt[] = {KC_E, KC_R, COMBO_END};
-const uint16_t PROGMEM zx_tog_vim[] = {KC_Z, KC_X, COMBO_END};
-
-combo_t key_combos[] = {
-    [QW_CAPWORD] = COMBO(qw_combo, CW_TOGG),
-    [HJ_EQL] = COMBO(hj_combo, KC_EQL),
-    [UI_LBRC] = COMBO(ui_combo, KC_LBRC),
-    [OI_RBRC] = COMBO(oi_combo, KC_RBRC),
-    [JK_LPRN] = COMBO_ACTION(jk_combo),
-    [KL_RPRN] = COMBO_ACTION(kl_combo),
-    [MCOMM_LCBR] = COMBO(mcomm_combo, KC_LCBR),
-    [COMMDOT_RCBR] = COMBO(commdot_combo, KC_RCBR),
-    [NM_DLR] = COMBO(nm_combo, KC_DLR),
-    [DOTSLSH_DEL] = COMBO(dotslsh_combo, KC_DEL),
-    [WE_LT] = COMBO(we_lt, KC_LT),
-    [ER_GT] = COMBO(er_gt, KC_GT),
-    [ZX_TOG_VIM] = COMBO(zx_tog_vim, TOG_VIM)
-};
-
-bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-    if(get_highest_layer(layer_state) == _CHUAN) {
-        return true;
-    }
-
-    return false;
-}
-
-static uint8_t mods_before_combo = 0;
-static uint32_t last_combo_pressed = 0;
-
-// https://github.com/stasmarkin/sm_voyager_keymap/blob/cf9dd93dcab8d8069c005abb973441f5b6c7609d/sm/sm_voyager_combo.h#L524*/
-// This is copied from the above link t work with sm_td
-void process_combo_event(uint16_t combo_index, bool pressed) {
-    if (pressed) {
-        mods_before_combo = get_mods();
-    }
-
-    switch(combo_index) {
-        // send keycode for ( when tapped
-        // otherwise add left shift and alt as if they were held
-        case JK_LPRN:
-            if (pressed) {
-                mods_before_combo = timer_read32();
-                add_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_CTRL));
-                send_keyboard_report();
-            } else {
-                del_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_CTRL));
-                if (((int32_t) TIMER_DIFF_32(timer_read32(), last_combo_pressed)) < COMBO_TAP_TERM) {
-                    tap_code16(KC_LPRN);
-                } else {
-                    send_keyboard_report();
-                }
-            }
-            break;
-        // send keycode for ) when tapped
-        // otherwise add left shift and alt as if they were held
-        case KL_RPRN:
-            if (pressed) {
-                mods_before_combo = timer_read32();
-                add_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_ALT));
-                send_keyboard_report();
-            } else {
-                del_mods(MOD_BIT(KC_LEFT_SHIFT) | MOD_BIT(KC_LEFT_ALT));
-                if (((int32_t) TIMER_DIFF_32(timer_read32(), last_combo_pressed)) < COMBO_TAP_TERM) {
-                    tap_code16(KC_RPRN);
-                } else {
-                    send_keyboard_report();
-                }
-            }
-            break;
-    }
-    if (pressed) {
-        last_combo_pressed = timer_read32();
     }
 }
 
@@ -191,6 +85,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS , KC_TRNS , KC_TRNS , LSFT(KC_G) , KC_P8   , KC_TRNS ,                         KC_TRNS , KC_P9   , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
                       KC_TRNS , KC_TRNS    , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
 )
+};
+
+
+// Combos, the definition besides the enum MUST live here unless using combo dictionary
+// not worth to invest into learning how to use the dictionary as of now
+const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
+const uint16_t PROGMEM hj_combo[] = {KC_H, CTL_J, COMBO_END};
+const uint16_t PROGMEM ui_combo[] = {KC_U, KC_I, COMBO_END};
+const uint16_t PROGMEM oi_combo[] = {KC_O, KC_I, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {CTL_J, SFT_K, COMBO_END};
+const uint16_t PROGMEM kl_combo[] = {SFT_K, ALT_L, COMBO_END};
+const uint16_t PROGMEM mcomm_combo[] = {KC_M, KC_COMM, COMBO_END};
+const uint16_t PROGMEM commdot_combo[] = {KC_COMM, KC_DOT, COMBO_END};
+const uint16_t PROGMEM nm_combo[] = {KC_N, KC_M, COMBO_END};
+const uint16_t PROGMEM dotslsh_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
+const uint16_t PROGMEM we_lt[] = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM er_gt[] = {KC_E, KC_R, COMBO_END};
+const uint16_t PROGMEM zx_tog_vim[] = {KC_Z, KC_X, COMBO_END};
+
+combo_t key_combos[] = {
+    [QW_CAPWORD] = COMBO(qw_combo, CW_TOGG),
+    [HJ_EQL] = COMBO(hj_combo, KC_EQL),
+    [UI_LBRC] = COMBO(ui_combo, KC_LBRC),
+    [OI_RBRC] = COMBO(oi_combo, KC_RBRC),
+    [JK_LPRN] = COMBO_ACTION(jk_combo),
+    [KL_RPRN] = COMBO_ACTION(kl_combo),
+    [MCOMM_LCBR] = COMBO(mcomm_combo, KC_LCBR),
+    [COMMDOT_RCBR] = COMBO(commdot_combo, KC_RCBR),
+    [NM_DLR] = COMBO(nm_combo, KC_DLR),
+    [DOTSLSH_DEL] = COMBO(dotslsh_combo, KC_DEL),
+    [WE_LT] = COMBO(we_lt, KC_LT),
+    [ER_GT] = COMBO(er_gt, KC_GT),
+    [ZX_TOG_VIM] = COMBO(zx_tog_vim, TOG_VIM)
 };
 
 // RGB Modes

@@ -31,4 +31,5 @@ GRAVE_ESC_ENABLE = no
 include $(KEYBOARD_PATH_1)/keymaps/$(KEYMAP)/qmk-vim/rules.mk
 
 SRC += features/vim_mode.c
+SRC += features/combos.c
 
