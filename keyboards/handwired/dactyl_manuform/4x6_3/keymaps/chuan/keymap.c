@@ -1,57 +1,17 @@
 #include QMK_KEYBOARD_H
+#include "features/vim_mode.h"
+#include "features/layers.h"
+#include "features/keycodes.h"
 
 #ifndef COMBO_TAP_TERM
 #define COMBO_TAP_TERM TAPPING_TERM
 #endif
 
-enum custom_layers {
-    _CHUAN = 0,
-    _SYMBOL = 1,
-    _EXTEND = 2,
-    _GAMING = 3,
-    _VIM_INSERT = 4,
-    _VIM_NORM = 5,
-    _VIM_VISUAL = 6,
-    _VIM_VISUAL_LINE = 7,
-    _NULL = 255
-};
-
-enum custom_keycodes {
-    C_PBRAC = SAFE_RANGE,
-    TOG_VIM
-};
-
-static uint8_t current_vim_layer = _NULL;
-
-void set_vim_rgb_layer(uint8_t layer) {
-    if (layer == current_vim_layer) return;
-
-    rgblight_set_layer_state(_VIM_INSERT, false);
-    rgblight_set_layer_state(_VIM_NORM, false);
-    rgblight_set_layer_state(_VIM_VISUAL, false);
-    rgblight_set_layer_state(_VIM_VISUAL_LINE, false);
-
-    if (layer != _NULL) {
-        rgblight_set_layer_state(layer, true);
-    }
-    current_vim_layer = layer;
-}
-
-#include "qmk-vim/src/vim.h"
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_vim_mode(keycode, record)) {
+    if (!process_vim_record(keycode, record)) {
         return false;
     }
     switch (keycode) {
-        case TOG_VIM:
-            if (record->event.pressed) {
-                toggle_vim_mode();
-
-                if (!vim_mode_enabled()) {
-                    set_vim_rgb_layer(255);
-                }
-            }
-            return false;
         case C_PBRAC:
             if (record->event.pressed) {
                 SEND_STRING("{}");
@@ -62,7 +22,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         default:
             return true;
     }
-};
+}
 
 enum combos {
     QW_CAPWORD,
@@ -297,32 +257,13 @@ void keyboard_post_init_user(void) {
     rgblight_layers = my_rgb_layers;
 }
 
-void insert_mode_user(void) {
-  set_vim_rgb_layer(_VIM_INSERT);
-}
-
-void normal_mode_user(void) {
-  set_vim_rgb_layer(_VIM_NORM);
-}
-
-void visual_mode_user(void) {
-  set_vim_rgb_layer(_VIM_VISUAL);
-}
-
-void visual_line_mode_user(void) {
-  set_vim_rgb_layer(_VIM_VISUAL_LINE);
-}
-
 layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(_CHUAN, layer_state_cmp(state, _CHUAN));
-    rgblight_set_layer_state(_SYMBOL, layer_state_cmp(state, _GAMING));
-    rgblight_set_layer_state(_EXTEND, layer_state_cmp(state, _SYMBOL));
-    rgblight_set_layer_state(_GAMING, layer_state_cmp(state, _EXTEND));
+    rgblight_set_layer_state(_SYMBOL, layer_state_cmp(state, _SYMBOL));
+    rgblight_set_layer_state(_EXTEND, layer_state_cmp(state, _EXTEND));
+    rgblight_set_layer_state(_GAMING, layer_state_cmp(state, _GAMING));
 
-    // TODO: while vim-mode is on, the other layer lights dont come thru
-    if (!vim_mode_enabled()) {
-        set_vim_rgb_layer(_NULL);
-    }
+    set_vim_rgb_layer(_NULL);
 
     return state;
 }
