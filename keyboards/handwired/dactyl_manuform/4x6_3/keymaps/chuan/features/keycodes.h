@@ -2,4 +2,4 @@
 
 #include "quantum_keycodes.h"
 
-enum custom_keycodes { TOG_VIM = SAFE_RANGE, NUM_WORD, LEADER = KC_F11 };
+enum custom_keycodes { VIM = SAFE_RANGE, NUM_WORD, LEADER };

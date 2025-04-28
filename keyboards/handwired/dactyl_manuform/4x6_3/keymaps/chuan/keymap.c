@@ -1,4 +1,5 @@
 #include "keycodes.h"
+#include "plugins/leader.h"
 #include "quantum.h"
 #include "features/rgb_layers.h"
 #include "features/layers.h"
@@ -24,7 +25,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case NUM_WORD:
             process_num_word_activation(record);
             return false;
-        case TOG_VIM:
+        case VIM:
             process_vim_activation(record);
             return false;
         case LEADER:
@@ -37,20 +38,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌─────────┬───────┬───────┬───────┬───────────────────┬────────┐                       ┌─────┬──────────────────┬───────┬───────┬──────────┬───┐
-//    │   tab   │   q   │   w   │   e   │         r         │   t    │                       │  y  │        u         │   i   │   o   │    p     │ _ │
-//    ├─────────┼───────┼───────┼───────┼───────────────────┼────────┤                       ├─────┼──────────────────┼───────┼───────┼──────────┼───┤
-//    │   esc   │ GUI_A │ ALT_S │ SFT_D │       CTL_F       │   g    │                       │  h  │      CTL_J       │ SFT_K │ ALT_L │ GUI_SCLN │ ' │
-//    ├─────────┼───────┼───────┼───────┼───────────────────┼────────┤                       ├─────┼──────────────────┼───────┼───────┼──────────┼───┤
-//    │ QK_AREP │   z   │   x   │   c   │         v         │   b    │                       │  n  │        m         │   ,   │   .   │    /     │ : │
-//    └─────────┴───────┼───────┼───────┼───────────────────┼────────┼──────────┐   ┌────────┼─────┼──────────────────┼───────┼───────┼──────────┴───┘
-//                      │ left  │ rght  │ LT(_NUMBER, bspc) │ QK_REP │ NUM_WORD │   │ LEADER │ ent │ LT(_SYMBOL, spc) │  up   │ down  │
-//                      └───────┴───────┴───────────────────┴────────┴──────────┘   └────────┴─────┴──────────────────┴───────┴───────┘
+//    ┌─────────┬───────┬───────┬───────┬───────────────────┬────────┐                    ┌─────┬──────────────────┬───────┬───────┬──────────┬───┐
+//    │   tab   │   q   │   w   │   e   │         r         │   t    │                    │  y  │        u         │   i   │   o   │    p     │ _ │
+//    ├─────────┼───────┼───────┼───────┼───────────────────┼────────┤                    ├─────┼──────────────────┼───────┼───────┼──────────┼───┤
+//    │   esc   │ GUI_A │ ALT_S │ SFT_D │       CTL_F       │   g    │                    │  h  │      CTL_J       │ SFT_K │ ALT_L │ GUI_SCLN │ ' │
+//    ├─────────┼───────┼───────┼───────┼───────────────────┼────────┤                    ├─────┼──────────────────┼───────┼───────┼──────────┼───┤
+//    │ QK_AREP │   z   │   x   │   c   │         v         │   b    │                    │  n  │        m         │   ,   │   .   │    /     │ : │
+//    └─────────┴───────┼───────┼───────┼───────────────────┼────────┼──────────┐   ┌─────┼─────┼──────────────────┼───────┼───────┼──────────┴───┘
+//                      │ left  │ rght  │ LT(_NUMBER, bspc) │ QK_REP │ NUM_WORD │   │ VIM │ ent │ LT(_SYMBOL, spc) │  up   │ down  │
+//                      └───────┴───────┴───────────────────┴────────┴──────────┘   └─────┴─────┴──────────────────┴───────┴───────┘
 [_CHUAN] = LAYOUT_4x6_3(
-  KC_TAB  , KC_Q  , KC_W    , KC_E    , KC_R                 , KC_T   ,                         KC_Y   , KC_U                , KC_I    , KC_O    , KC_P     , KC_UNDS,
-  KC_ESC  , GUI_A , ALT_S   , SFT_D   , CTL_F                , KC_G   ,                         KC_H   , CTL_J               , SFT_K   , ALT_L   , GUI_SCLN , KC_QUOT,
-  QK_AREP , KC_Z  , KC_X    , KC_C    , KC_V                 , KC_B   ,                         KC_N   , KC_M                , KC_COMM , KC_DOT  , KC_SLSH  , KC_COLN,
-                    KC_LEFT , KC_RGHT , LT(_NUMBER, KC_BSPC) , QK_REP , NUM_WORD ,     LEADER , KC_ENT , LT(_SYMBOL, KC_SPC) , KC_UP   , KC_DOWN
+  KC_TAB  , KC_Q  , KC_W    , KC_E    , KC_R                 , KC_T   ,                      KC_Y   , KC_U                , KC_I    , KC_O    , KC_P     , KC_UNDS,
+  KC_ESC  , GUI_A , ALT_S   , SFT_D   , CTL_F                , KC_G   ,                      KC_H   , CTL_J               , SFT_K   , ALT_L   , GUI_SCLN , KC_QUOT,
+  QK_AREP , KC_Z  , KC_X    , KC_C    , KC_V                 , KC_B   ,                      KC_N   , KC_M                , KC_COMM , KC_DOT  , KC_SLSH  , KC_COLN,
+                    KC_LEFT , KC_RGHT , LT(_NUMBER, KC_BSPC) , QK_REP , NUM_WORD ,     VIM , KC_ENT , LT(_SYMBOL, KC_SPC) , KC_UP   , KC_DOWN
 ),
 
 //    ┌─────┬──────┬──────┬─────────┬──────┬──────┐               ┌─────┬──────┬──────┬──────┬──────┬─────┐
@@ -117,7 +118,7 @@ const uint16_t PROGMEM nm_combo[]      = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM dotslsh_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM we_lt[]         = {KC_W, KC_E, COMBO_END};
 const uint16_t PROGMEM er_gt[]         = {KC_E, KC_R, COMBO_END};
-const uint16_t PROGMEM zx_tog_vim[]    = {KC_Z, KC_X, COMBO_END};
+const uint16_t PROGMEM zx_leader[]     = {KC_Z, KC_X, COMBO_END};
 
 combo_t key_combos[] = {[QW_CAPWORD]   = COMBO(qw_combo, CW_TOGG),
                         [HJ_EQL]       = COMBO(hj_combo, KC_EQL),
@@ -131,7 +132,7 @@ combo_t key_combos[] = {[QW_CAPWORD]   = COMBO(qw_combo, CW_TOGG),
                         [DOTSLSH_DEL]  = COMBO(dotslsh_combo, KC_DEL),
                         [WE_LT]        = COMBO(we_lt, KC_LT),
                         [ER_GT]        = COMBO(er_gt, KC_GT),
-                        [ZX_TOG_VIM]   = COMBO(zx_tog_vim, TOG_VIM)};
+                        [ZX_LEADER]    = COMBO(zx_leader, LEADER)};
 
 void persistent_default_layer_set(uint16_t default_layer) {
     eeconfig_update_default_layer(default_layer);

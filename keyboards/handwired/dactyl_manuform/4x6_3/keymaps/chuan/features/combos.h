@@ -17,5 +17,5 @@ enum combos {
     DOTSLSH_DEL,
     WE_LT,
     ER_GT,
-    ZX_TOG_VIM,
+    ZX_LEADER,
 };

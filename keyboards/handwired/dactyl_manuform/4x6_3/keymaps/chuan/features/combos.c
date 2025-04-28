@@ -75,7 +75,7 @@ uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
             return 60;
         case ER_GT:
             return 40;
-        case ZX_TOG_VIM:
+        case ZX_LEADER:
             return 300;
         case DOTSLSH_DEL:
             return 300;
