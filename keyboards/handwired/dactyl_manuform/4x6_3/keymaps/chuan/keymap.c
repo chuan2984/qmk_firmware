@@ -3,6 +3,7 @@
 #include "features/layers.h"
 #include "features/keycodes.h"
 #include "features/combos.h"
+#include "quantum.h"
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_vim_record(keycode, record)) {
@@ -21,6 +22,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌─────────┬───────┬───────┬───────┬───────┬────────┐                                 ┌─────┬───────┬───────┬───────┬──────────┬───┐
 //    │   tab   │   q   │   w   │   e   │   r   │   t    │                                 │  y  │   u   │   i   │   o   │    p     │ _ │
@@ -86,39 +88,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       KC_TRNS , KC_TRNS    , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
 )
 };
-
+// clang-format on
 
 // Combos, the definition besides the enum MUST live here unless using combo dictionary
 // not worth to invest into learning how to use the dictionary as of now
-const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
-const uint16_t PROGMEM hj_combo[] = {KC_H, CTL_J, COMBO_END};
-const uint16_t PROGMEM ui_combo[] = {KC_U, KC_I, COMBO_END};
-const uint16_t PROGMEM oi_combo[] = {KC_O, KC_I, COMBO_END};
-const uint16_t PROGMEM jk_combo[] = {CTL_J, SFT_K, COMBO_END};
-const uint16_t PROGMEM kl_combo[] = {SFT_K, ALT_L, COMBO_END};
-const uint16_t PROGMEM mcomm_combo[] = {KC_M, KC_COMM, COMBO_END};
+const uint16_t PROGMEM qw_combo[]      = {KC_Q, KC_W, COMBO_END};
+const uint16_t PROGMEM hj_combo[]      = {KC_H, CTL_J, COMBO_END};
+const uint16_t PROGMEM ui_combo[]      = {KC_U, KC_I, COMBO_END};
+const uint16_t PROGMEM oi_combo[]      = {KC_O, KC_I, COMBO_END};
+const uint16_t PROGMEM jk_combo[]      = {CTL_J, SFT_K, COMBO_END};
+const uint16_t PROGMEM kl_combo[]      = {SFT_K, ALT_L, COMBO_END};
+const uint16_t PROGMEM mcomm_combo[]   = {KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM commdot_combo[] = {KC_COMM, KC_DOT, COMBO_END};
-const uint16_t PROGMEM nm_combo[] = {KC_N, KC_M, COMBO_END};
+const uint16_t PROGMEM nm_combo[]      = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM dotslsh_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
-const uint16_t PROGMEM we_lt[] = {KC_W, KC_E, COMBO_END};
-const uint16_t PROGMEM er_gt[] = {KC_E, KC_R, COMBO_END};
-const uint16_t PROGMEM zx_tog_vim[] = {KC_Z, KC_X, COMBO_END};
+const uint16_t PROGMEM we_lt[]         = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM er_gt[]         = {KC_E, KC_R, COMBO_END};
+const uint16_t PROGMEM zx_tog_vim[]    = {KC_Z, KC_X, COMBO_END};
 
-combo_t key_combos[] = {
-    [QW_CAPWORD] = COMBO(qw_combo, CW_TOGG),
-    [HJ_EQL] = COMBO(hj_combo, KC_EQL),
-    [UI_LBRC] = COMBO(ui_combo, KC_LBRC),
-    [OI_RBRC] = COMBO(oi_combo, KC_RBRC),
-    [JK_LPRN] = COMBO_ACTION(jk_combo),
-    [KL_RPRN] = COMBO_ACTION(kl_combo),
-    [MCOMM_LCBR] = COMBO(mcomm_combo, KC_LCBR),
-    [COMMDOT_RCBR] = COMBO(commdot_combo, KC_RCBR),
-    [NM_DLR] = COMBO(nm_combo, KC_DLR),
-    [DOTSLSH_DEL] = COMBO(dotslsh_combo, KC_DEL),
-    [WE_LT] = COMBO(we_lt, KC_LT),
-    [ER_GT] = COMBO(er_gt, KC_GT),
-    [ZX_TOG_VIM] = COMBO(zx_tog_vim, TOG_VIM)
-};
+combo_t key_combos[] = {[QW_CAPWORD]   = COMBO(qw_combo, CW_TOGG),
+                        [HJ_EQL]       = COMBO(hj_combo, KC_EQL),
+                        [UI_LBRC]      = COMBO(ui_combo, KC_LBRC),
+                        [OI_RBRC]      = COMBO(oi_combo, KC_RBRC),
+                        [JK_LPRN]      = COMBO_ACTION(jk_combo),
+                        [KL_RPRN]      = COMBO_ACTION(kl_combo),
+                        [MCOMM_LCBR]   = COMBO(mcomm_combo, KC_LCBR),
+                        [COMMDOT_RCBR] = COMBO(commdot_combo, KC_RCBR),
+                        [NM_DLR]       = COMBO(nm_combo, KC_DLR),
+                        [DOTSLSH_DEL]  = COMBO(dotslsh_combo, KC_DEL),
+                        [WE_LT]        = COMBO(we_lt, KC_LT),
+                        [ER_GT]        = COMBO(er_gt, KC_GT),
+                        [ZX_TOG_VIM]   = COMBO(zx_tog_vim, TOG_VIM)};
 
 // RGB Modes
 // 1 = Static
@@ -136,48 +136,26 @@ void persistent_default_layer_set(uint16_t default_layer) {
 }
 
 // Light LEDs 1 through 8 in cyan when keyboard layer 1 is active
-const rgblight_segment_t PROGMEM base_0_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_LUNA}
-);
+const rgblight_segment_t PROGMEM base_0_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 20, HSV_LUNA});
 
-const rgblight_segment_t PROGMEM gaming_1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_RED}
-);
+const rgblight_segment_t PROGMEM gaming_1_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 20, HSV_RED});
 
-const rgblight_segment_t PROGMEM symbol_2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_ORANGE}
-);
+const rgblight_segment_t PROGMEM symbol_2_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 20, HSV_ORANGE});
 
-const rgblight_segment_t PROGMEM extend_3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_YELLOW}
-);
+const rgblight_segment_t PROGMEM extend_3_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 20, HSV_YELLOW});
 
-const rgblight_segment_t PROGMEM vim_insert_4_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_CYAN}
-);
+const rgblight_segment_t PROGMEM vim_insert_4_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 20, HSV_CYAN});
 
-const rgblight_segment_t PROGMEM vim_normal_5_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_BLUE}
-);
+const rgblight_segment_t PROGMEM vim_normal_5_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 20, HSV_BLUE});
 
-const rgblight_segment_t PROGMEM vim_visual_6_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_PINK}
-);
+const rgblight_segment_t PROGMEM vim_visual_6_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 20, HSV_PINK});
 
-const rgblight_segment_t PROGMEM vim_visual_line_7_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_PURPLE}
-);
+const rgblight_segment_t PROGMEM vim_visual_line_7_layer[] =
+    RGBLIGHT_LAYER_SEGMENTS({0, 20, HSV_PURPLE});
 
-const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    base_0_layer,
-    gaming_1_layer,
-    symbol_2_layer,
-    extend_3_layer,
-    vim_insert_4_layer,
-    vim_normal_5_layer,
-    vim_visual_6_layer,
-    vim_visual_line_7_layer
-);
+const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    base_0_layer, gaming_1_layer, symbol_2_layer, extend_3_layer, vim_insert_4_layer,
+    vim_normal_5_layer, vim_visual_6_layer, vim_visual_line_7_layer);
 
 void keyboard_post_init_user(void) {
     // Enable the LED layers

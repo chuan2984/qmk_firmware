@@ -2,6 +2,7 @@
 #include "qmk-vim/src/vim.h"
 #include "layers.h"
 #include "keycodes.h"
+#include "quantum.h"
 
 static uint8_t current_vim_layer = _NULL;
 
@@ -44,10 +45,18 @@ bool process_vim_record(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void insert_mode_user(void) { set_rgb_layer(_VIM_INSERT); }
+void insert_mode_user(void) {
+    set_rgb_layer(_VIM_INSERT);
+}
 
-void normal_mode_user(void) { set_rgb_layer(_VIM_NORM); }
+void normal_mode_user(void) {
+    set_rgb_layer(_VIM_NORM);
+}
 
-void visual_mode_user(void) { set_rgb_layer(_VIM_VISUAL); }
+void visual_mode_user(void) {
+    set_rgb_layer(_VIM_VISUAL);
+}
 
-void visual_line_mode_user(void) { set_rgb_layer(_VIM_VISUAL_LINE); }
+void visual_line_mode_user(void) {
+    set_rgb_layer(_VIM_VISUAL_LINE);
+}
