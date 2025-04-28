@@ -13,7 +13,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_leader(keycode, record)) {
         return false;
     }
-    if (!process_vim_record(keycode, record)) {
+    if (!process_vim_mode(keycode, record)) {
         return false;
     }
     if (!process_num_word(keycode, record)) {
@@ -23,6 +23,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case NUM_WORD:
             process_num_word_activation(record);
+            return false;
+        case TOG_VIM:
+            process_vim_activation(record);
             return false;
         case LEADER:
             start_leading();

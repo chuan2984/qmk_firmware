@@ -27,22 +27,11 @@ void set_vim_rgb_layer(uint8_t layer) {
     }
 }
 
-bool process_vim_record(uint16_t keycode, keyrecord_t *record) {
-    // Process Vim mode keycodes
-    if (!process_vim_mode(keycode, record)) {
-        return false;
+void process_vim_activation(const keyrecord_t *record) {
+    if (record->event.pressed) {
+        toggle_vim_mode();
+        set_vim_rgb_layer(_NULL);
     }
-
-    // Process Vim-specific keycodes
-    if (keycode == TOG_VIM) {
-        if (record->event.pressed) {
-            toggle_vim_mode();
-            set_vim_rgb_layer(_NULL);
-        }
-        return false;
-    }
-
-    return true;
 }
 
 void insert_mode_user(void) {
