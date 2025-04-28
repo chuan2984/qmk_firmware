@@ -9,6 +9,7 @@
 #define ONESHOT_TAP_TOGGLE 3
 
 #define TAPPING_TERM 180
+#define TAPPING_TERM_PER_KEY
 #define QUICK_TAP_TERM 0
 
 // Left-hand home row mods
