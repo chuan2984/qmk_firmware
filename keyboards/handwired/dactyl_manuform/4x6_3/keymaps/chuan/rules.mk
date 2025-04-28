@@ -34,4 +34,5 @@ SRC += features/vim_mode.c
 SRC += features/combos.c
 SRC += features/rgb_layers.c
 SRC += features/tap_dance.c
+SRC += features/num_word.c
 

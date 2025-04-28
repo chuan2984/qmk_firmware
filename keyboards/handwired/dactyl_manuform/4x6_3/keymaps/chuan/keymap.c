@@ -4,19 +4,21 @@
 #include "features/keycodes.h"
 #include "features/combos.h"
 #include "features/vim_mode.h"
+#include "features/num_word.h"
 #include QMK_KEYBOARD_H
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_vim_record(keycode, record)) {
         return false;
     }
+
+    if (!process_num_word(keycode, record)) {
+        return false;
+    }
+
     switch (keycode) {
-        case C_PBRAC:
-            if (record->event.pressed) {
-                SEND_STRING("{}");
-                register_code(KC_LEFT);
-                unregister_code(KC_LEFT);
-            }
+        case NUM_WORD:
+            process_num_word_activation(record);
             return false;
         default:
             return true;
@@ -25,20 +27,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌─────────┬───────┬───────┬───────┬───────┬────────┐                                 ┌─────┬───────┬───────┬───────┬──────────┬───┐
-//    │   tab   │   q   │   w   │   e   │   r   │   t    │                                 │  y  │   u   │   i   │   o   │    p     │ _ │
-//    ├─────────┼───────┼───────┼───────┼───────┼────────┤                                 ├─────┼───────┼───────┼───────┼──────────┼───┤
-//    │   esc   │ GUI_A │ ALT_S │ SFT_D │ CTL_F │   g    │                                 │  h  │ CTL_J │ SFT_K │ ALT_L │ GUI_SCLN │ ' │
-//    ├─────────┼───────┼───────┼───────┼───────┼────────┤                                 ├─────┼───────┼───────┼───────┼──────────┼───┤
-//    │ QK_AREP │   z   │   x   │   c   │   v   │   b    │                                 │  n  │   m   │   ,   │   .   │    /     │ : │
-//    └─────────┴───────┼───────┼───────┼───────┼────────┼──────────────┐   ┌──────────────┼─────┼───────┼───────┼───────┼──────────┴───┘
-//                      │ left  │ rght  │ bspc  │ QK_REP │ OSL(_NUMBER) │   │ OSL(_SYMBOL) │ ent │  spc  │  up   │ down  │
-//                      └───────┴───────┴───────┴────────┴──────────────┘   └──────────────┴─────┴───────┴───────┴───────┘
+//    ┌─────────┬───────┬───────┬───────┬───────┬────────┐                             ┌─────┬───────┬───────┬───────┬──────────┬───┐
+//    │   tab   │   q   │   w   │   e   │   r   │   t    │                             │  y  │   u   │   i   │   o   │    p     │ _ │
+//    ├─────────┼───────┼───────┼───────┼───────┼────────┤                             ├─────┼───────┼───────┼───────┼──────────┼───┤
+//    │   esc   │ GUI_A │ ALT_S │ SFT_D │ CTL_F │   g    │                             │  h  │ CTL_J │ SFT_K │ ALT_L │ GUI_SCLN │ ' │
+//    ├─────────┼───────┼───────┼───────┼───────┼────────┤                             ├─────┼───────┼───────┼───────┼──────────┼───┤
+//    │ QK_AREP │   z   │   x   │   c   │   v   │   b    │                             │  n  │   m   │   ,   │   .   │    /     │ : │
+//    └─────────┴───────┼───────┼───────┼───────┼────────┼──────────┐   ┌──────────────┼─────┼───────┼───────┼───────┼──────────┴───┘
+//                      │ left  │ rght  │ bspc  │ QK_REP │ NUM_WORD │   │ OSL(_SYMBOL) │ ent │  spc  │  up   │ down  │
+//                      └───────┴───────┴───────┴────────┴──────────┘   └──────────────┴─────┴───────┴───────┴───────┘
 [_CHUAN] = LAYOUT_4x6_3(
-  KC_TAB  , KC_Q  , KC_W    , KC_E    , KC_R    , KC_T   ,                                   KC_Y   , KC_U   , KC_I    , KC_O    , KC_P     , KC_UNDS,
-  KC_ESC  , GUI_A , ALT_S   , SFT_D   , CTL_F   , KC_G   ,                                   KC_H   , CTL_J  , SFT_K   , ALT_L   , GUI_SCLN , KC_QUOT,
-  QK_AREP , KC_Z  , KC_X    , KC_C    , KC_V    , KC_B   ,                                   KC_N   , KC_M   , KC_COMM , KC_DOT  , KC_SLSH  , KC_COLN,
-                    KC_LEFT , KC_RGHT , KC_BSPC , QK_REP , OSL(_NUMBER) ,     OSL(_SYMBOL) , KC_ENT , KC_SPC , KC_UP   , KC_DOWN
+  KC_TAB  , KC_Q  , KC_W    , KC_E    , KC_R    , KC_T   ,                               KC_Y   , KC_U   , KC_I    , KC_O    , KC_P     , KC_UNDS,
+  KC_ESC  , GUI_A , ALT_S   , SFT_D   , CTL_F   , KC_G   ,                               KC_H   , CTL_J  , SFT_K   , ALT_L   , GUI_SCLN , KC_QUOT,
+  QK_AREP , KC_Z  , KC_X    , KC_C    , KC_V    , KC_B   ,                               KC_N   , KC_M   , KC_COMM , KC_DOT  , KC_SLSH  , KC_COLN,
+                    KC_LEFT , KC_RGHT , KC_BSPC , QK_REP , NUM_WORD ,     OSL(_SYMBOL) , KC_ENT , KC_SPC , KC_UP   , KC_DOWN
 ),
 
 //    ┌──────┬─────┬─────┬─────┬─────┬──────┐                ┌─────┬─────┬─────┬─────┬─────┬─────┐

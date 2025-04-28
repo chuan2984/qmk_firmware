@@ -1,6 +1,4 @@
 #pragma once
 
-enum custom_keycodes {
-    C_PBRAC = SAFE_RANGE,
-    TOG_VIM
-};
+#include "quantum_keycodes.h"
+enum custom_keycodes { TOG_VIM = SAFE_RANGE, NUM_WORD };
