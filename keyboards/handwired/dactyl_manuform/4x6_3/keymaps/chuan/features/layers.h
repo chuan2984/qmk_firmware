@@ -2,9 +2,9 @@
 
 enum custom_layers {
     _CHUAN = 0,
-    _SYMBOL,
-    _EXTEND,
     _GAMING,
+    _SYMBOL,
+    _NUMBER,
     _VIM_INSERT,
     _VIM_NORM,
     _VIM_VISUAL,
