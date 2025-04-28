@@ -33,11 +33,11 @@ static void handle_kl_combo(bool pressed, uint32_t last_combo_pressed) {
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode,
                           keyrecord_t *record) {
-    if (get_highest_layer(layer_state) == _CHUAN) {
-        return true;
+    if (get_highest_layer(layer_state) == _GAMING) {
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 static uint32_t last_combo_pressed = 0;
