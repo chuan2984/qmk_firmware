@@ -35,4 +35,6 @@ SRC += features/combos.c
 SRC += features/rgb_layers.c
 SRC += features/tap_dance.c
 SRC += features/num_word.c
+SRC += plugins/leader.c
+SRC += features/leader.c
 
